@@ -1,0 +1,22 @@
+.mainForm{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nameInput{
+    
+    align-content: center !important;
+    width: rem(450px) !important;
+}
+.mainButtonGroup{
+    padding-top: rem(13%) !important;
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    
+}
+.mainButton{
+    width: rem(200px) !important;
+}
