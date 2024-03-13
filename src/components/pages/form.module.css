@@ -11,7 +11,7 @@
     width: rem(450px) !important;
 }
 .mainButtonGroup{
-    padding-top: rem(13%) !important;
+    /* padding-top: rem(13%) !important; */
     display: flex;
     flex-direction: column !important;
     justify-content: center;
@@ -19,4 +19,10 @@
 }
 .mainButton{
     width: rem(200px) !important;
+}
+.textAreaDetails{
+    /* display: flex;
+    flex-grow: inherit  ;
+    justify-content: center; */
+    width: rem(900px) ;
 }

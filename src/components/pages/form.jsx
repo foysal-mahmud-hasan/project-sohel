@@ -9,7 +9,8 @@ import {
     Text,
     NumberInput,
     Container,
-    Tooltip
+    Tooltip,
+    Textarea
 } from '@mantine/core';
 import { Checkbox } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -21,7 +22,10 @@ import '@mantine/dropzone/styles.css';
 import { IconBrandSuperhuman } from '@tabler/icons-react';
 import { IconAt } from '@tabler/icons-react';
 import { IconRating18Plus } from '@tabler/icons-react';
-import { IconSelector } from "@tabler/icons-react";
+import {
+    IconSelector,
+    IconPhone,
+} from "@tabler/icons-react";
 import classes from './form.module.css'
 import { DateInput } from '@mantine/dates'
 
@@ -32,23 +36,25 @@ const MyForm = () => {
             name: '',
             email: '',
             age: '',
-            // number: '',
-            // details: '',
+            number: '',
+            details: '',
             checked: false,
             files: [],
             // selectedNative: '',
             droppedImages: [],
+            dateOB: null,
 
         },
         validate: {
             name: (value) => (value.length > 0 ? null : 'Name is required'),
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            number: (value) => (/^0+\d{10}$/.test(value) ? null : 'Invalid number'),
             checked: (value) => (value ? null : 'Must agree to sell privacy'),
             age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
             // files: (value) => (value.length > 0 ? null : 'Please upload a file '),
             selectedNative: (value) => (value === '' ? 'please select a library' : null),
             droppedImages: (value) => (value.length > 0 ? null : 'please upoload a image'),
-            // date: (value) => (value.)
+            dateOB: (value) => (value == null ? 'please enter your date of birth' : null),
         },
     });
 
@@ -58,8 +64,6 @@ const MyForm = () => {
     };
 
     const [focused, setFocused] = useState(false);
-
-    // const [value, setValue] = useState < Date | null > (null);
 
     return (
         <form onSubmit={form.onSubmit(handleSubmit)} >
@@ -93,7 +97,7 @@ const MyForm = () => {
                         />
                         <TextInput
                             className={classes.nameInput}
-                            m={'md'}
+                            // m={'md'}
                             label="Email"
                             radius={'md'}
                             size='md'
@@ -165,7 +169,7 @@ const MyForm = () => {
                             radius={'md'}
                             size='md'
                             label={'Gender'}
-                            m='sm'
+                            m='md'
                             rightSection={<IconSelector />}
                             value={form.values.selectedNative || ''}
                             data={['Please Select your gender', 'Male', 'Female', 'Shorifa']}
@@ -177,19 +181,57 @@ const MyForm = () => {
                             error={form.errors.selectedNative}
                         />
 
-                        {/* <DateInput
-                            value={value}
-                            onChange={setValue}
-                            label="Date input"
-                            placeholder="Date input"
-                        /> */}
+                        <TextInput
+                            className={classes.nameInput}
+                            m={'md'}
+                            label="Contact Number"
+                            radius={'md'}
+                            size='md'
+                            leftSection=
+                            {<IconPhone size={20} />}
+                            placeholder="Enter your number"
+                            {...form.getInputProps('number')}
+                            error={form.errors.number}
+                        />
+
+                        <DateInput
+                            className={classes.nameInput}
+                            radius={'md'}
+                            size='md'
+                            m='md'
+                            value={form.values.dateOB}
+                            onChange={(value) => form.setFieldValue('dateOB', value)}
+                            label="Date of Birth"
+                            placeholder="Date of Birth"
+                            error={form.errors.dateOB}
+                        />
 
                     </Container>
 
                 </Grid.Col>
+                <Grid.Col>
+                    <Group
+                        size='md'
+                        className='groupTextArea'
+                        justify='center'
+
+
+                    >
+                        <Textarea
+                            className={classes.textAreaDetails}
+                            size="md"
+                            radius="md"
+                            label="Describe yourself"
+                            placeholder="Short summary of yourself"
+                            {...form.getInputProps('details')}
+
+                        />
+                    </Group>
+                </Grid.Col>
                 <Grid.Col  >
 
                     <Group m="md" className={classes.mainButtonGroup} >
+
                         <Checkbox
                             m={'md'}
                             label="I agree to sell my rights & privacy !"
