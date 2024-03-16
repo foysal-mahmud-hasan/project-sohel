@@ -12,6 +12,7 @@ import { IconUser } from '@tabler/icons-react'
 import { IconUsers } from '@tabler/icons-react'
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './nestedTable.module.css'
+import styles from './nestedTable.module.css'
 
 const PAGE_SIZES = [10, 15, 20, 25];
 
@@ -21,6 +22,10 @@ export function NestedTables() {
 
     return (
         <DataTable
+
+            pagination={{
+                className: styles.pagination,
+            }}
             withTableBorder
             withColumnBorders
             highlightOnHover
@@ -130,7 +135,10 @@ export function ColumnPropertiesExample() {
 
     return (
         <DataTable
-            height={300}
+            pagination={{
+                className: styles.pagination,
+            }}
+
             withTableBorder
             withColumnBorders
             borderRadius='sm'
@@ -140,6 +148,7 @@ export function ColumnPropertiesExample() {
             verticalSpacing={'xs'}
             fz={'sm'}
             verticalAlign='center'
+
             striped
             c={{ dark: '#dbc7a0', light: '#55350d' }}
             //  override default background color for light and dark themes
@@ -178,10 +187,6 @@ export function ColumnPropertiesExample() {
             recordsPerPageOptions={PAGE_SIZES}
             onRecordsPerPageChange={setPageSize}
 
-            pagination={{
-                position: 'bottom',
-                className: styles.pagination,
-            }}
 
         />
     );

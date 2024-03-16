@@ -5,10 +5,20 @@
     margin-right: rem(8px);
   }
   
-  .expandIcon {
+.expandIcon {
     transition: transform 0.2s;
   }
   
-  .expandIconRotated {
+.expandIconRotated {
     transform: rotate(90deg);
   }
+.mantine-datatable-pagination {
+    display: flex !important;
+    flex-direction: row !important;
+}
+/* styles.module.css */
+.pagination {
+    display: flex !important;
+    flex-direction: row !important;
+}
+

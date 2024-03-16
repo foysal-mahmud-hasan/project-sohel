@@ -14,15 +14,17 @@ import { Link } from 'react-router-dom';
 const mainLinksMockdata = [
     { icon: IconHome2, label: 'Home' },
     { icon: IconForms, label: 'Form' },
-    // { icon: IconTable, label: 'Table' },
-    // { icon: IconTableColumn, label: 'Nested-Table' },
+    { icon: IconTable, label: 'Table' },
+    { icon: IconTableColumn, label: 'Nested-Table' },
 ];
 
 const linksMockdata = [
     'Home',
     'Form',
-    // 'Table',
+    'Table',
     'Nested-Table',
+    'Action-Table'
+
 ];
 
 export function DoubleNavbar() {

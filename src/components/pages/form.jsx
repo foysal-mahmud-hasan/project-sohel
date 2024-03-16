@@ -10,7 +10,8 @@ import {
     NumberInput,
     Container,
     Tooltip,
-    Textarea
+    Textarea,
+    MultiSelect
 } from '@mantine/core';
 import { Checkbox } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -25,6 +26,7 @@ import { IconRating18Plus } from '@tabler/icons-react';
 import {
     IconSelector,
     IconPhone,
+    IconHome,
 } from "@tabler/icons-react";
 import classes from './form.module.css'
 import { DateInput } from '@mantine/dates'
@@ -38,8 +40,10 @@ const MyForm = () => {
             age: '',
             number: '',
             details: '',
+            address: '',
             checked: false,
             files: [],
+            mulSelect: [],
             // selectedNative: '',
             droppedImages: [],
             dateOB: null,
@@ -51,10 +55,12 @@ const MyForm = () => {
             number: (value) => (/^0+\d{10}$/.test(value) ? null : 'Invalid number'),
             checked: (value) => (value ? null : 'Must agree to sell privacy'),
             age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+            address: (value) => (value.length > 0 ? null : 'Address is required'),
             // files: (value) => (value.length > 0 ? null : 'Please upload a file '),
             selectedNative: (value) => (value === '' ? 'please select a library' : null),
             droppedImages: (value) => (value.length > 0 ? null : 'please upoload a image'),
             dateOB: (value) => (value == null ? 'please enter your date of birth' : null),
+            mulSelect: (value) => (value.length > 0 ? null : "Select atleast one item")
         },
     });
 
@@ -120,7 +126,20 @@ const MyForm = () => {
                             {...form.getInputProps('age')}
                             error={form.errors.age}
                         />
-
+                        <MultiSelect
+                            className={classes.nameInput}
+                            m='sm'
+                            onChange={(mulSelect) => { console.log('Selected library', mulSelect) }}
+                            radius={'md'}
+                            size='md'
+                            label="Your favorite libraries"
+                            placeholder="Pick value"
+                            data={['React', 'Angular', 'Vue', 'Svelte']}
+                            searchable
+                            {...form.getInputProps('mulSelect')}
+                            error={form.errors.mulSelect}
+                            nothingFoundMessage="Nothing found..."
+                        />
                         {/* <FileInput
                             mt={'sm'}
                             label={'Upload files'}
@@ -133,27 +152,7 @@ const MyForm = () => {
                             error={form.errors.files}
                         /> */}
 
-                        <div>
-                            <Dropzone
-                                className={classes.nameInput}
-                                radius={'md'}
-                                size='md'
-                                m={'sm'}
-                                accept={IMAGE_MIME_TYPE}
-                                onDrop={(droppedImages) => {
-                                    form.setFieldValue('droppedImages', droppedImages);
-                                }}
-                                onReject={() => form.setFieldError('droppedImages', 'Selected images only')}
-                            >
-                                <Text ta="center">Drop Images Here</Text>
-                            </Dropzone>
-                            <SimpleGrid
-                                className={classes.nameInput} mt={form.values.droppedImages.length > 0 ? 'xl' : 0} cols={{ base: 1, sm: 4 }}>
-                                {form.values.droppedImages.map((file) => (
-                                    <Image key={file.name} src={URL.createObjectURL(file)} alt={file.name} />
-                                ))}
-                            </SimpleGrid>
-                        </div>
+
 
 
                     </Container>
@@ -193,7 +192,18 @@ const MyForm = () => {
                             {...form.getInputProps('number')}
                             error={form.errors.number}
                         />
-
+                        <TextInput
+                            className={classes.nameInput}
+                            m={'md'}
+                            label="Address"
+                            radius={'md'}
+                            size='md'
+                            leftSection=
+                            {<IconHome size={20} />}
+                            placeholder="Enter your Address"
+                            {...form.getInputProps('address')}
+                            error={form.errors.address}
+                        />
                         <DateInput
                             className={classes.nameInput}
                             radius={'md'}
@@ -210,6 +220,28 @@ const MyForm = () => {
 
                 </Grid.Col>
                 <Grid.Col>
+
+                    <div className={classes.MultiSelect}>
+                        <Dropzone
+
+                            radius={'md'}
+                            size='sm'
+                            m='lg'
+                            accept={IMAGE_MIME_TYPE}
+                            onDrop={(droppedImages) => {
+                                form.setFieldValue('droppedImages', droppedImages);
+                            }}
+                            onReject={() => form.setFieldError('droppedImages', 'Selected images only')}
+                        >
+                            <Text ta="center">Drop Images Here</Text>
+                        </Dropzone>
+                        <SimpleGrid
+                            className={classes.nameInput} mt={form.values.droppedImages.length > 0 ? 'xl' : 0} cols={{ base: 1, sm: 4 }}>
+                            {form.values.droppedImages.map((file) => (
+                                <Image key={file.name} src={URL.createObjectURL(file)} alt={file.name} />
+                            ))}
+                        </SimpleGrid>
+                    </div>
                     <Group
                         size='md'
                         className='groupTextArea'

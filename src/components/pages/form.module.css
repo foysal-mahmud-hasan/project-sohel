@@ -26,3 +26,8 @@
     justify-content: center; */
     width: rem(900px) ;
 }
+.multiSelect{
+    align-content: center !important;
+    /* this is for the drop zone  */
+    width: 200px !important;
+}
