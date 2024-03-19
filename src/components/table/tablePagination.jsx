@@ -5,7 +5,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import styles from './tablePagination.module.css'
-
+import { Modal, Button } from '@mantine/core';
 
 import { DataTable } from 'mantine-datatable';
 import dayjs from 'dayjs';
@@ -14,13 +14,54 @@ import companies from '../data/companies';
 
 const PAGE_SIZES = [3, 5, 7, 11, 15];
 
+
+
+
+
+
 /* const customPaginationStyles = {
   display: 'flex',
   justifyContent: 'flex-end !important', // Align items to the right
 }; */
 
 export default function Pagination() {
+    const [opened, setOpened] = useState(false);
+    const [modalData, setModalData] = useState(null);
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
+    const openModal = (data) => {
+        setModalData(data);
+        setOpened(true);
+    };
+    const closeModal = () => {
+        setModalData(null);
+        setOpened(false);
+    };
+
+    const showModal = ({ company, action }) => {
+        const ModalContent = ({ company, action }) => (
+            <div>
+                <p>
+                    {action === 'edit'
+                        ? 'Here\'s where you could put an edit form...'
+                        : 'Here\'s where you could ask for confirmation before deleting...'}
+                </p>
+                <div>
+                    <div>ID</div>
+                    <div>{company.id}</div>
+                    <div>Name</div>
+                    <div>{company.name}</div>
+                </div>
+                <button onClick={() => closeModal(action)}>Close</button>
+            </div>
+        );
+
+        openModal({
+            modalId: action,
+            title: action === 'edit' ? 'Editing company information' : 'Deleting company',
+            children: <ModalContent company={company} action={action} />,
+        });
+    };
+
 
     useEffect(() => {
         setPage(1);
@@ -57,11 +98,8 @@ export default function Pagination() {
             records={records}
             columns={[
                 { accessor: 'name', },
-                { accessor: 'missionStatement', },
-                { accessor: 'streetAddress', },
                 { accessor: 'city', },
                 { accessor: 'state', },
-                { accessor: 'contact', },
                 {
                     accessor: 'actions',
                     title: <Box mr={6}>Row actions</Box>,
@@ -72,7 +110,7 @@ export default function Pagination() {
                                 size="sm"
                                 variant="subtle"
                                 color="green"
-                            // onClick={() => showModal({ company, action: 'view' })}
+                                onClick={() => showModal({ company, action: 'view' })}
                             >
                                 <FontAwesomeIcon icon={faEye} />
                             </ActionIcon>
@@ -80,7 +118,7 @@ export default function Pagination() {
                                 size="sm"
                                 variant="subtle"
                                 color="blue"
-                            // onClick={() => showModal({ company, action: 'edit' })}
+                                onClick={() => showModal({ company, action: 'edit' })}
                             >
                                 <FontAwesomeIcon icon={faEdit} />
                             </ActionIcon>
@@ -88,7 +126,7 @@ export default function Pagination() {
                                 size="sm"
                                 variant="subtle"
                                 color="red"
-                            // onClick={() => showModal({ company, action: 'delete' })}
+                                onClick={() => showModal({ company, action: 'delete' })}
                             >
                                 <FontAwesomeIcon icon={faTrash} />
                             </ActionIcon>
@@ -131,6 +169,7 @@ export default function Pagination() {
         //  uncomment the next lines to use custom pagination colors
         // paginationActiveBackgroundColor="green"
         // paginationActiveTextColor="#e6e348"
+
         />
     );
 }
